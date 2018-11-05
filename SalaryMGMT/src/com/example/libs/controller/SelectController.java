@@ -8,7 +8,7 @@ import com.example.libs.model.EmployeeDTO;
 
 public class SelectController {
 	public Vector<EmployeeDTO> select(){
-		Vector<EmployeeDTO> vector = null;
+		Vector<EmployeeDTO> vector=null;
 		try {
 			vector = EmployeeDAO.select();
 		} catch (SQLException e) {

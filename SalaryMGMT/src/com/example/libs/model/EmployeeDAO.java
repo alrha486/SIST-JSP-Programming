@@ -7,20 +7,20 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 public class EmployeeDAO {
-	public static Vector<EmployeeDTO> select() throws SQLException {
+	public static Vector<EmployeeDTO> select() throws SQLException{
 		Connection conn = DBConnection.getConnection();
 		String sql = "SELECT * FROM Employee ORDER BY salary DESC";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs= pstmt.executeQuery();
-		Vector<EmployeeDTO> vector = new Vector<EmployeeDTO>(1,1);
-		if(!rs.next()) {  //한 개의 데이터도 없다면
+		Vector<EmployeeDTO> vector = new Vector<EmployeeDTO>(1,1); 
+		if(!rs.next()) { //데이터가 하나도 없다면
 			vector = null;
-		}else {
+		}else {//있다면
 			do {
 				EmployeeDTO emp = new EmployeeDTO(rs.getString("sabun"),
-						rs.getString("dname"), rs.getInt("gibon"), rs.getInt("jsudang"), 
-						rs.getInt("nsudang"), rs.getInt("fsudang"), rs.getInt("total"),
-						rs.getInt("tax"), rs.getInt("salary"));
+																									rs.getString("dname"), rs.getInt("gibon"), rs.getInt("jsudang"), 
+																									rs.getInt("nsudang"), rs.getInt("fsudang"), rs.getInt("total"),
+																									rs.getInt("tax"), rs.getInt("salary"));
 				vector.add(emp);
 			}while(rs.next());
 		}

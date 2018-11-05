@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html>
 <head>
 	<meta charset="utf-8">
@@ -8,14 +8,30 @@
 	<script src="script/jquery.min.js"></script>
 	<script>
 		$(function(){
-			$.ajax({
-				url : "/employeemgmt/servlet/Index",
-				dataType : "json",
-				success : function(data){
-					console.log(typeof data);
+			$.ajax({ // ajax 사용
+				url : "/SalaryMGMT/test.jsp", // text.jsp에 있는 json파일을 사용한다는 얘기임
+				dataType : "xml", 
+				success : function(data){ // test.jsp에 있는 json 파일을 data로 받아오기
+					var xmlDoc = data; 
+					var str = xmlDoc.getElementsByTagName('data')[0].firstChild.nodeValue;
+					var obj = JSON.parse(str); // json형식으로 파싱
+					$('#count').html("<span>" + obj.count + '</span>')
+					.css("color", "red");
+					var array = obj.message;
+					var str = ""; // 밑에 tbody에 넣을 데이터 str
+					for(var i=0; i<array.length; i++){
+						str += "<tr>";
+						str += "<td>" + array[i].sabun + "</td><td>" + array[i].dname + "</td>";
+						str += "<td>" + array[i].gibon + "</td><td>" + array[i].jsudang + "</td>";
+						str += "<td>" + array[i].nsudang + "</td><td>" + array[i].fsudang + "</td>";
+						str += "<td>" + array[i].total + "</td><td>" + array[i].tax + "</td>";
+						str += "<td>" + array[i].salary + "</td>";
+						str += "</tr>";
+					}
+					$('#result').html(str);
 				},
 				error : function(err){
-					console.log(err);
+					console.log("error 발생");
 				},
 				type : "GET"
 			});
@@ -27,7 +43,7 @@
 	<table border='0'>
 		<tr>
 			<td><a href="input.html">입력하기</a></td>
-			<td>[명 데이터]</td>
+			<td>[<span id='count'></span>명 데이터]</td>
 		</tr>
 	</table>
 	<table border='1'>
@@ -37,7 +53,7 @@
 				<th>야근수당</th><th>가족수당</th><th>총지급액</th><th>소득세</th><th>실수령액</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody id="result">
 			
 		</tbody>
 	</table>
