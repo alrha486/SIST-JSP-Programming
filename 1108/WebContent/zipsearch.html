@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>우편번호 검색</title>
+<script src="js/jquery.min.js"></script>
+<script>
+	$(function(){
+		$("#btnSearch").bind('click', function(){
+			$.ajax({
+				url : "zipSearch.jsp",
+				type : "POST",
+				data : {
+					listSido : $("#listSido").val(),
+					listGugun : $("#listGugun").val(),
+					keyword : $("#keyword").val()
+				},
+				success : function(data){
+					var xmlDoc = data;
+					var array = xmlDoc.getElementsByTagName("record");
+					var str = "<table border='1'><thead><tr><th>우편번호</th><th>시도</th>" +
+					               "<th>구군</th><th>동</th><th>번지</th></tr></thead><tbody>";
+					for(var i = 0 ; i < array.length ; i++){
+						var record = array[i];
+						console.log(record);
+						str += "<tr>";
+						str += "<td>" + record.getElementsByTagName("zipcode")[0].firstChild.nodeValue + "</td>";
+						str += "<td>" + record.getElementsByTagName("sido")[0].firstChild.nodeValue + "</td>";
+						str += "<td>" + record.getElementsByTagName("gugun")[0].firstChild.nodeValue + "</td>";
+						str += "<td>" + record.getElementsByTagName("dong")[0].firstChild.nodeValue + "</td>";
+						str += "<td>" + record.getElementsByTagName("bunji")[0].firstChild.nodeValue + "</td>";
+						str += "</tr>";
+					}
+					str += "</tbody></table>";
+					$("#result").html(str);
+				},
+				error : function(err){
+					console.log("Error 발생 : " + err);
+				} 
+			});
+		});
+		
+		
+		
+		$('#listSido').bind('change', function(){
+			$.ajax({
+				url : "getGugun.jsp?listSido=" + $(this).val(),
+				method : "GET",
+				success : function(data){
+					var xmlDoc = data;
+					var array = xmlDoc.getElementsByTagName("data");
+					var str = "<option>--선택--</option>";
+					for(var i = 0 ; i < array.length ; i++){
+						str += "<option value='" + array[i].firstChild.nodeValue + "'>" + 
+									array[i].firstChild.nodeValue + "</option>";
+					}
+					$('#listGugun').html(str);
+				},
+				error : function(err){
+					console.log("Error 발생 : " + err);
+				} 
+			});
+		});	
+		
+		
+		
+		$.ajax({
+			url : "getsido.jsp",
+			method : "GET",
+			success : function(data){
+				var xmlDoc = data;
+				var array = xmlDoc.getElementsByTagName("data");
+				var str = "<option>--선택--</option>";
+				for(var i = 0 ; i < array.length ; i++){
+					str += "<option value='" + array[i].firstChild.nodeValue + "'>" + 
+								array[i].firstChild.nodeValue + "</option>";
+				}
+				$('#listSido').html(str);
+			},
+			error : function(err){
+				console.log("Error 발생 : " + err);
+			} 
+		});
+	});
+</script>
+</head>
+<body>
+	시/도 : <select id="listSido" name="listSido">
+				<option>--선택--</option>
+			</select>&nbsp;&nbsp;&nbsp;
+	시/군/구 : <select id="listGugun" name="listGugun">
+					<option>--선택--</option>
+			</select>&nbsp;&nbsp;&nbsp;
+	읍/면/동 : <input type="text" name="keyword" id="keyword"/>
+				 <input type="button" value="검색" id="btnSearch"/>
+
+	<div id="result"></div> 
+				
+</body>
+</html>
+
+
+
+
+
+
