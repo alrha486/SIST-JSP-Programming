@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <title>금일 지역별 예약 현황</title>
+   <link rel="stylesheet" href="css/style.css" type="text/css">
+   <script src="script/jquery.min.js"></script>
+   <script>
+      $(function(){
+         $.ajax({
+            url : "/korail/list.jsp",
+            type : "GET",
+            dataType : "xml",
+            success : function(data){
+               var xmlDoc = data;
+               var str = xmlDoc.getElementsByTagName('data')[0].firstChild.nodeValue;
+               var obj = JSON.parse(str);
+               $('#count').html("<span>" + obj.count + '</span>');
+               var array = obj.message;
+               var str = "";
+               for(var i = 0 ; i < array.length ; i++){
+                  str += "<tr>";
+                  str += "<td>" + array[i].num + "</td><td>" + array[i].area + "</td>";
+                  str += "<td>" + array[i].sex + "</td><td>" + array[i].tname + "</td>";
+                  str += "<td>" + array[i].seat + "</td><td>" + array[i].hal_kind + "</td>";
+                  str += "<td>" + array[i].discount + "</td><td>" + array[i].fee + "</td>";
+                  str += "</tr>";
+               }
+               $('#result').html(str);
+            },
+            error : function(err){
+               console.log(err);
+            },           
+         });
+      });
+   </script>
+</head>
+<body>
+   <h1>금일 지역별 예약 현황</h1>
+   --------------------------------------------------------------------------------
+   <table border='1'>
+      <thead>
+         <tr>
+            <th>번호</th><th>지역</th><th>성별</th><th>열차명</th>
+            <th>좌석</th><th>할증종류</th><th>할인액</th><th>차비</th>
+         </tr>
+      </thead>
+      <tbody id = "result">
+         
+      </tbody>
+   </table>
+</body>
+</html>

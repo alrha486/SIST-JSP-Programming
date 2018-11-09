@@ -1,0 +1,18 @@
+@CHARSET "UTF-8";
+hr { width:70%; border-width : 2px ; border-color : #ff0000}
+table {margin-left: auto; margin-right: auto ; padding : 3;
+          border : 1px ; width : 40% ; }
+table.a { height : 60% ; }
+td {background-color : #80ffff }
+td.f{ text-align : center ; background-color : white}
+tr {height: 40px}
+tr.e {height : 50px}
+th { background-color : #000099; width : 40% ; color : white}
+div {text-align:center}
+h1 {text-align: center}
+input { font-size : 16pt; width : 200px }
+input.b { background-color : #99cc00;color:#9900ff;font-weight:900 ; height : 50px}
+input.c { background-color : yellow}
+input.d {width : 100px ; background-color : yellow}
+span {font-size: 25pt;font-weight: bold}
+select {background-color : yellow ; font-size : 16pt}

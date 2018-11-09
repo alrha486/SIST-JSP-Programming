@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<taglib xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns="http://java.sun.com/xml/ns/j2ee"
+            xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd"
+            version="2.0">
+
+	<tlib-version>1.0</tlib-version>
+	<short-name>mylib</short-name>
+	
+	<tag>
+		<name>mystyle</name>
+		<tag-class>com.example.libs.MyDate</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>type</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>      
+</taglib>            

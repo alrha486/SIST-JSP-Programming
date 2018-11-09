@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>예매 페이지</title>
+	<link rel="stylesheet" type="text/css" href="css/input.css" />
+</head>
+<body>
+   <div><img src="images/icon.png" width="200" height="92" /></div>
+	<h1>열차 좌석 예매 페이지</h1>
+	<hr>
+	<form action="input.jsp" method="post">
+	<table class="a">
+	<tr>
+		<th>열차 좌석 코드 : </th>
+		<td><input type="text" name="tscode" class="c"></td>
+	</tr>
+	<tr>
+		<th class="bg">장소 코드 : </th>
+		<td>
+		<select name="pcode">
+			<option value="" selected="selected">--선택하기--</option>
+			<option value="CA">CA</option>
+			<option value="CB">CB</option>
+			<option value="CC">CC</option>
+			<option value="CD">CD</option>
+		</select>
+		</td>
+	</tr>
+	<tr>
+		<th class="bg">주민등록번호 : </th>
+		<td><input type="text" name="jumin1" class="d">  
+		<span> - </span> <input type="text" name="jumin2" class="d"></td>
+	</tr>
+	<tr>
+		<th class="bg">할증 코드 : </th>
+		<td>
+		<select name="ppcode">
+			<option value="" selected="selected">--선택하기--</option>
+			<option value="P0">P0</option>
+			<option value="P1">P1</option>
+			<option value="P2">P2</option>
+			<option value="P3">P3</option>
+		</select>
+		</td>
+	</tr>
+	</table>
+	<table>
+	<tr class="e">
+		<td colspan="2" class="f">
+		<input type="submit" value="예약하기"  class="b">&nbsp;<input type="reset" value="취소하기"  class="b">
+		</td>
+	</tr>
+	</table>
+	</form>
+</body>
+</html>
