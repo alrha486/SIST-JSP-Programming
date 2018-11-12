@@ -1,4 +1,4 @@
-DROP TABLE train;
+--DROP TABLE train;
 CREATE TABLE train
 (
 	code	CHAR(2)	PRIMARY KEY,  --열차코드
@@ -8,7 +8,7 @@ INSERT INTO train VALUES('TA', '새마을호');
 INSERT INTO train VALUES('TB', '무궁화호');
 INSERT INTO train VALUES('TC', '통일호');
 
-DROP TABLE seat;
+--DROP TABLE seat;
 CREATE TABLE seat
 (
 	code	CHAR(2)	PRIMARY KEY,   --좌석코드
@@ -18,7 +18,7 @@ INSERT INTO seat VALUES('SA', '특실');
 INSERT INTO seat VALUES('SB', '1등칸');
 INSERT INTO seat VALUES('SC', '보통칸');
 
-DROP TABLE place;
+--DROP TABLE place;
 CREATE TABLE place
 (
 	code	CHAR(2)	PRIMARY KEY,   --장소코드
@@ -30,7 +30,7 @@ INSERT INTO place VALUES ('CB', '부산', 50);
 INSERT INTO place VALUES ('CC', '대구', 110);
 INSERT INTO place VALUES ('CD', '광주', 180);
 
-DROP TABLE price;
+--DROP TABLE price;
 CREATE TABLE price
 (
 	id	number(1)	PRIMARY KEY,     --
@@ -46,7 +46,7 @@ INSERT INTO price VALUES(5, '무궁화호', '1등칸', 55);
 INSERT INTO price VALUES(6, '무궁화호', '보통칸', 40);
 INSERT INTO price VALUES(7, '통일호', '보통칸', 30);
 
-DROP TABLE premium;
+--DROP TABLE premium;
 CREATE TABLE premium
 (
 	code	char(2)	PRIMARY KEY,   --할증코드
@@ -58,7 +58,7 @@ INSERT INTO premium VALUES('P1', '소인', 0.5);
 INSERT INTO premium VALUES('P2', '군인', 0.3);
 INSERT INTO premium VALUES('P3', '장애인', 0.8);
 
-DROP TABLE Customer;
+--DROP TABLE Customer;
 CREATE TABLE Customer
 (
 	id	NUMBER(4)	PRIMARY KEY,   --
@@ -68,7 +68,7 @@ CREATE TABLE Customer
     jumin2	CHAR(7),               --주민번호2
     ppcode	CHAR(2),               --할증코드
     region	VARCHAR2(10),          --지역
-    gender	VARCHAR2(5),           --성별
+    gender	VARCHAR2(6),           --성별
     tname	VARCHAR2(20),          --열차명
     sname	VARCHAR2(20),          --좌석명
     kind	VARCHAR2(20),          --할증종류

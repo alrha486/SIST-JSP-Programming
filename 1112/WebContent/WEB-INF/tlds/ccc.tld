@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<taglib xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns="http://java.sun.com/xml/ns/j2ee"
+            xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd"
+            version="2.0">
+	<tlib-version>1.0</tlib-version>
+	<short-name>easy</short-name>
+	
+	<tag>
+		<name>bbb</name>
+		<tag-class>com.example.libs.HelloWorld</tag-class>
+		<body-content>empty</body-content>
+	</tag>    
+	<tag>
+		<name>dataFormatter</name>
+		<tag-class>com.example.libs.DataFormatter</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>header</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>items</name>
+			<required>true</required>
+		</attribute>
+	</tag>  
+	<tag>
+		<name>select</name>
+		<tag-class>com.example.libs.SelectTag</tag-class>
+		<body-content>scriptless</body-content>
+	</tag>
+</taglib>            

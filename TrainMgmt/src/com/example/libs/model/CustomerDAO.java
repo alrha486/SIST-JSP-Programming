@@ -1,10 +1,12 @@
 package com.example.libs.model;
 
-import java.sql.SQLException;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CustomerDAO {
 	public static void deleteTable(Statement stmt) throws SQLException{
@@ -83,5 +85,69 @@ public class CustomerDAO {
 		int row = pstmt.executeUpdate();
 		pstmt.close();
 		return row;
+	}
+	public static Map<String, Object> getPnameKuri(String code) throws SQLException{
+		Connection conn = DBConnection.getConnection();
+		String sql = "SELECT pname, kuri FROM place WHERE code = ?";
+		PreparedStatement pstmt = conn.prepareCall(sql);
+		pstmt.setString(1, code);
+		ResultSet rs = pstmt.executeQuery();
+		rs.next();
+		String pname = rs.getString("pname");    //장소명
+		int kuri = rs.getInt("kuri");                     //거리
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pname", pname);
+		map.put("kuri", kuri);
+		rs.close();   pstmt.close();
+		return map;
+	}
+	public static String getTname(String code) throws SQLException{
+		Connection conn = DBConnection.getConnection();
+		String sql = "SELECT tname FROM train WHERE code = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, code);
+		ResultSet rs = pstmt.executeQuery();
+		rs.next();   
+		String tname = rs.getString("tname");   //기차명
+		rs.close();   pstmt.close();
+		return tname;
+	}
+	public static String getSname(String code) throws SQLException{
+		Connection conn = DBConnection.getConnection();
+		String sql = "SELECT sname FROM seat WHERE code = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, code);
+		ResultSet rs = pstmt.executeQuery();
+		rs.next();
+		String sname = rs.getString("sname");      //좌석명
+		rs.close();   pstmt.close();
+		return sname;
+	}
+	public static Map<String, Object> getKindRate(String code) throws SQLException{
+		Connection conn = DBConnection.getConnection();
+		String sql = "SELECT kind,rate FROM premium WHERE code = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, code);
+		ResultSet rs = pstmt.executeQuery();
+		rs.next();
+		String kind = rs.getString("kind");   //할증종류
+		double rate = rs.getDouble("rate");   //할인율
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("kind", kind);
+		map.put("rate", rate);
+		rs.close();   pstmt.close();
+		return map;
+	}
+	public static int getDanga(String tname, String sname) throws SQLException{
+		Connection conn = DBConnection.getConnection();
+		String sql = "SELECT danga FROM price WHERE tname = ? and sname = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, tname);
+		pstmt.setString(2, sname);
+		ResultSet rs = pstmt.executeQuery();
+		rs.next();
+		int danga = rs.getInt("danga");
+		rs.close();   pstmt.close();
+		return danga;
 	}
 }
