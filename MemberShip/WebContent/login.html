@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+<link rel="stylesheet" href="css/bootstrap.css" />
+<style type="text/css">
+.jumbotron {
+	background-image: url("images/digital.jpg");
+}
+
+body {
+	color: white;
+}
+</style>
+<script src="js/jquery.min.js"></script>
+<script>
+$(function(){
+	$("#btnJoin").bind('click',function(){ //회원가입 버튼 누르면
+		location.href = "register.html";
+	});
+	
+	$("#btnIdSearch").bind('click',function(){ //ID찾기 버튼 누르면
+		location.href = "idsearch.jsp";
+	});
+	
+});
+</script>
+</head>
+<body>
+
+	<div class="container">
+		<div class="jumbotron">
+			<h1 class="display-3">안녕하세요!</h1>
+			<p class="lead">IT 전용 쇼핑몰 EXAMPLE.COM에서 새로운 경험을 맛보세요.</p>
+			<hr class="my-4">
+			<p>쇼핑몰의 새 강자 EXAMPLE.COM이 해결하겠습니다.</p>
+			<p class="lead">
+				<a class="btn btn-warning btn-lg" href="#" role="button">더 알아보기</a>
+			</p>
+		</div>
+	</div>
+	<form class="form-horizontal" method="POST"
+		action="/MemberShip/login.jsp">
+		<div class="form-group">
+			<label for="userid" class="col-sm-3 control-label">User ID</label>
+			<div class="col-sm-6">
+				<input type="text" class="form-control" id="userid" name="userid"
+					placeholder="Enter your ID">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="password" class="col-sm-3 control-label">USER
+				Password</label>
+			<div class="col-sm-6">
+				<input type="password" class="form-control" id="password"
+					name="password" placeholder="Enter your Password">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-3 col-sm-6">
+				<button type="submit" class="btn btn-success">Sign in</button>
+				<button type="button" class="btn btn-danger" id="btnJoin">Join</button>
+				<button type="button" class="btn btn-warning" id="btnIdSearch">ID 찾기</button>
+				<button type="button" class="btn btn-success" id="btnJoin">PW 찾기</button>
+			</div>
+		</div>
+	</form>
+</body>
+</html>
