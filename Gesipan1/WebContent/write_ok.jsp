@@ -2,6 +2,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import = "com.oreilly.servlet.MultipartRequest" %>
+<%@ page import = "com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
 
 <jsp:useBean id="ic" class="com.example.libs.controller.InsertController" />
 <!-- InsertControll 생성자 ic  -->
@@ -10,13 +12,23 @@
 <fmt:requestEncoding value="utf-8"/>
 <!--  넘어온 정보의 인코딩  -->
 
-<jsp:setProperty property="name" name="gesipan" value="${param.name}" />
-<jsp:setProperty property="passwd" name="gesipan" value="${param.passwd}" />
-<jsp:setProperty property="email" name="gesipan" value="${param.email}" />
-<!-- GesipanVO형 gesipan에 넘어온 name,passwd,email 을 세팅-->
-
 <%
-	String title = request.getParameter("title");
+	String saveDirectory = application.getRealPath(".") + "/files";	
+	//진짜 물리적인 경로 지정(파일이 저장 될 실제경로)
+	int maxPostSize = 1024 * 1024 * 10;
+	// 10MB (최대파일 업로드 사이즈)
+	MultipartRequest mr = new MultipartRequest(request, saveDirectory,maxPostSize, "utf-8"
+			 														,new DefaultFileRenamePolicy());
+	// request객체 대신 사용할 MultipartRequest 객체
+	
+	
+	gesipan.setName(mr.getParameter("name"));
+	gesipan.setPasswd(mr.getParameter("passwd"));
+	gesipan.setEmail(mr.getParameter("email"));
+	
+
+
+	String title = mr.getParameter("title");
 	// 폼에서 넘어온 title 세팅
 	title = title.replace("<", "&lt;");
 	title = title.replace(">", "&gt;");
@@ -24,7 +36,7 @@
 	
 	gesipan.setTitle(title); // GesipanVO형 에 setTitle();
 	
-	String contents = request.getParameter("contents");
+	String contents = mr.getParameter("contents");
 	// 폼에서 넘어온 contents 값 세팅
 	contents = contents.replace("<", "&lt;");
 	contents = contents.replace(">", "&gt;");
@@ -32,15 +44,12 @@
 	contents = contents.replace("\r\n", "<br />"); //\r\n : enter
 	gesipan.setContents(contents); // GesipanVO형에 setContents
 
+	String filename = mr.getFilesystemName("filename");
+	//getFilesystemName() >> 파일시스템에 파일 저장할 떄 이름이 곂칠수도있으니 이름에 초단위까지도 저장해줌
+
+	if(filename == null) filename = "";
+	gesipan.setFilename(filename);	
 %>
-
-<c:if test="${empty param.filename}">  <!-- filename 값이 비어있다면 -->
-	<jsp:setProperty property="filename" name="gesipan" value="" />
-</c:if>
-
-<c:if test="${not(empty param.filename)}"> <!-- filename 값이 비어있지 않다면 -->
-	<jsp:setProperty property="filename" name="gesipan" value="${param.filename}" />
-</c:if>
 
 <c:set var="row" value="${ic.insert(gesipan)}" />
 <!-- insertController의 insert()호출 -->

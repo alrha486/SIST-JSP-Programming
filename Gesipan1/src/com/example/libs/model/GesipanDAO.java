@@ -4,10 +4,46 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Types;
 import java.util.Vector;
 
 public class GesipanDAO {
+	
+	public static String getFilename(int idx) throws SQLException{
+		//idx값으로 filename 추출하는 메소드
+		Connection conn = DBConnection.getConnection();
+		String sql = "{ call board_select_filename(?,?) }";
+		CallableStatement cstmt = conn.prepareCall(sql);
+		cstmt.setInt(1, idx);
+		cstmt.registerOutParameter(2, Types.VARCHAR);
+		cstmt.executeUpdate();
+		String filename = cstmt.getString(2);
+		
+		if(cstmt != null) cstmt.close();
+		DBClose.close(conn);	
+		
+		return filename;
+	}
+	
+	public static int getPageCount(int pageSize) throws SQLException{
+		Connection conn = DBConnection.getConnection();
+		String sql = "SELECT COUNT(idx) FROM Gesipan";
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery(sql);
+		
+		rs.next();
+		int count = rs.getInt(1); // 총 레코드 개수
+		int pageCount = 
+				(count % pageSize == 0) ? count / pageSize :count / pageSize + 1;
+		if(rs != null) rs.close();
+		if(stmt != null) stmt.close();
+		DBClose.close(conn);
+		
+		return pageCount;	
+		
+	}
+	
 	
 	public static void updateStep(int grp, int step)throws SQLException{
 		 Connection conn = DBConnection.getConnection();
@@ -103,7 +139,7 @@ public class GesipanDAO {
 		return gesipan;
 	}
 		
-	public static Vector<GesipanVO> selectAll() throws SQLException{
+	public static Vector<GesipanVO> selectAll(int cuurentPage,int pageSize) throws SQLException{
 		Connection conn = DBConnection.getConnection();
 		String sql = "{call board_selectAll(?)}";
 		CallableStatement cstmt = conn.prepareCall(sql);
@@ -111,19 +147,27 @@ public class GesipanDAO {
 		cstmt.executeUpdate();
 		ResultSet rs = (ResultSet)cstmt.getObject(1);
 		Vector<GesipanVO> vector = new Vector<GesipanVO>(1,1);
-		if(!rs.next()) { // 현재 한 개의 글이라도 없다면
+		int start = (cuurentPage -1) * pageSize; 
+		if(!rs.next() && start ==0) { // 현재 한 개의 글이라도 없다면
 			vector = null;
-		}else { //글이 한 개라도 있다면
+		}else {
+			for(int i=0; i<start; i++) rs.next();
+			int count = 0;
 			do {
 				GesipanVO gesipan = new GesipanVO();
 				gesipan.setIdx(rs.getInt("idx"));
 				gesipan.setName(rs.getString("name"));
 				gesipan.setEmail(rs.getString("email"));
 				gesipan.setTitle(rs.getString("title"));
+				gesipan.setFilename(rs.getString("filename"));
 				gesipan.setWritedate(rs.getDate("writedate"));
 				gesipan.setReadnum(rs.getInt("readnum"));
+				gesipan.setGrp(rs.getInt("grp"));
+				gesipan.setLev(rs.getInt("lev"));
+				gesipan.setStep(rs.getInt("step"));
 				vector.addElement(gesipan);
-			}while(rs.next());
+				count ++;
+			}while(rs.next() && count < pageSize); // count가 pagesize(5)개 만큼만 돌기
 		}
 		if(rs != null) rs.close();
 		if(cstmt != null) cstmt.close();
@@ -131,9 +175,11 @@ public class GesipanDAO {
 		return vector;
 	}
 	
+	
+	// 새로운 글 입력할 때 사용할 insert
 	public static int insert(GesipanVO gesipan) throws SQLException{
 		Connection conn = DBConnection.getConnection();
-		String sql = "{call board_insert(?,?,?,?,?,?)}";
+		String sql = "{call board_insert(?,?,?,?,?,?,?,?,?)}";
 		CallableStatement cstmt = conn.prepareCall(sql);
 		cstmt.setString(1, gesipan.getName());
 		cstmt.setString(2, gesipan.getPasswd());
@@ -141,9 +187,59 @@ public class GesipanDAO {
 		cstmt.setString(4, gesipan.getTitle());
 		cstmt.setString(5, gesipan.getContents());
 		cstmt.setString(6, gesipan.getFilename());
-		int row = cstmt.executeUpdate();
+		cstmt.setInt(7, 0); //0
+		cstmt.setInt(8, 0); //0
+		cstmt.setInt(9, 0); //0
+		cstmt.executeUpdate();
+		// 여기까지 입력은 됨
+		
+		sql = "SELECT MAX(idx) FROM Gesipan";
+		// 내가 올린 글의 idx값과 grp 값을 같게하기위해 idx값을 뽑기 
+		ResultSet rs = cstmt.executeQuery(sql);
+		rs.next();
+		
+		int max = rs.getInt(1); // 방금 입력한 글의 idx값 
+		System.out.println(max);
+		sql = "UPDATE Gesipan SET grp = " + max + "WHERE idx = " + max;
+		int row = cstmt.executeUpdate(sql);
+		
 		if(cstmt != null) cstmt.close();
 		DBClose.close(conn);
+		
 		return row;
-	}
+	}	
+	
+		// 답글 입력할 때 사용할 insert
+		public static int insertReply(GesipanVO gesipan) throws SQLException{
+			Connection conn = DBConnection.getConnection();
+			String sql = "{call board_insert(?,?,?,?,?,?,?,?,?)}";
+			CallableStatement cstmt = conn.prepareCall(sql);
+			cstmt.setString(1, gesipan.getName());
+			cstmt.setString(2, gesipan.getPasswd());
+			cstmt.setString(3, gesipan.getEmail());
+			cstmt.setString(4, gesipan.getTitle());
+			cstmt.setString(5, gesipan.getContents());
+			cstmt.setString(6, gesipan.getFilename());
+			cstmt.setInt(7, gesipan.getGrp()); 
+			cstmt.setInt(8, gesipan.getLev()); 
+			cstmt.setInt(9, gesipan.getStep()); 		
+			int row =  cstmt.executeUpdate();
+			
+			if(cstmt != null) cstmt.close();
+			DBClose.close(conn);
+			
+			return row;
+		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

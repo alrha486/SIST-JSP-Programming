@@ -24,11 +24,11 @@
 			<li><input type="hidden" name="p_lev" value="${lev}"/></li>
 			<li><input type="hidden" name="p_step" value="${step}"/></li>
 			
-			<li>Name : <input type="text" name="name" readonly="readonly" value="${sessionScope.name}"/></li>
+			<li>Name : <input type="text" name="name"  value="${sessionScope.name}"/></li>
 			<li>Password : <input type="password" name="passwd" /></li>
 			<li>Email : <input type="email" name="email" size="50"/></li>							
 			<li>Title : <input type="text" name="title" size="70" 
-								value="RE : ${Util.reconvert(GESIPAN.getTitle(),false)}"/></li>
+								value="${Util.reconvert(GESIPAN.getTitle(),false)}"/></li>
 			<li>Contents : <textarea type="text" name="contents" rows="5" cols="50">
 								${Util.concat(Util.reconvert(GESIPAN.getContents(),true))}</textarea></li>
 			<li><button type="submit">답변하기</button>&nbsp;&nbsp;&nbsp;

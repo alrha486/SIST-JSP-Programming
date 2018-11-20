@@ -2,6 +2,20 @@ package com.example.libs.controller;
 
 public class Util {
 	
+	public static String getExtension(String filename) {
+		String extension = null;
+		if(filename.endsWith(".ppt") || filename.endsWith(".pptx")) extension ="ppt";
+		else if(filename.endsWith(".doc") || filename.endsWith(".docx")) extension ="doc";
+		else if(filename.endsWith(".xls") || filename.endsWith(".xlsx")) extension ="xls";
+		else if(filename.endsWith(".pdf") || filename.endsWith(".pdfx")) extension ="pdf";
+		else if(filename.endsWith(".zip") || filename.endsWith(".gz")) extension ="zip";
+		else if(filename.endsWith(".jar")) extension ="jar";
+		else extension = filename.substring(filename.lastIndexOf(".") + 1);
+				return extension;
+	}
+	
+	
+	
 	public static String concat(String original) {
 		String result= "\r\n\r\n\r\n\r\n---------------------------------------------";
 		result += "\r\n >>";

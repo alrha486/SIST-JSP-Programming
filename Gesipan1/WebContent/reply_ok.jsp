@@ -7,22 +7,47 @@
 <jsp:useBean id="ic" class="com.example.libs.controller.InsertController" />
 <jsp:useBean id="uc" class="com.example.libs.controller.UpdateController" />
 
-<c:set var="idx" value="${param.idx}" />
-<c:set var="step" value="${param.step}" />
-<jsp:setProperty name="gesipan" property="name" value="" />
-<jsp:setProperty name="gesipan" property="email" value="" />
-<jsp:setProperty name="gesipan" property="title" value="" />
-<jsp:setProperty name="gesipan" property="contents" value="" />
-<jsp:setProperty name="gesipan" property="grp" value="${param.grp}" />
-<jsp:setProperty name="gesipan" property="lev" value="${param.lev + 1}" />
-	${uc.updateStep(param.grp,param.step);''}
+<c:set var="idx" value="${param.p_idx}" />
+<c:set var="step" value="${param.p_step}" />
+<jsp:setProperty name="gesipan" property="name" value="${param.name}" />
+<jsp:setProperty name="gesipan" property="passwd" value="${param.passwd}" />
+<jsp:setProperty name="gesipan" property="email" value="${param.email}" />
+<%
+	String title = request.getParameter("title");
+	// 폼에서 넘어온 title 세팅
+	title = title.replace("<", "&lt;");
+	title = title.replace(">", "&gt;");
+	title = title.replace("'", "''"); //'하나를 ''두개로
+	
+	gesipan.setTitle(title); // GesipanVO형 에 setTitle();
+	
+	String contents = request.getParameter("contents");
+	// 폼에서 넘어온 contents 값 세팅
+	contents = contents.replace("<", "&lt;");
+	contents = contents.replace(">", "&gt;");
+	contents = contents.replace("'", "''");
+	contents = contents.replace("\r\n", "<br />"); //\r\n : enter
+	gesipan.setContents(contents); // GesipanVO형에 setContents
 
-<jsp:setProperty name="gesipan" property="step" value="${param.step + 1}" />
+%>
 
+<c:if test="${empty param.filename}">  <!-- filename 값이 비어있다면 -->
+	<jsp:setProperty property="filename" name="gesipan" value="" />
+</c:if>
 
-<c:set var="row" value="${ic.insert(gesipan)}" />
+<c:if test="${not(empty param.filename)}"> <!-- filename 값이 비어있지 않다면 -->
+	<jsp:setProperty property="filename" name="gesipan" value="${param.filename}" />
+</c:if>
 
-<c:if test="${row eq 1 }" >
+<jsp:setProperty name="gesipan" property="grp" value="${param.p_grp}" />
+<jsp:setProperty name="gesipan" property="lev" value="${param.p_lev+1}" />
+${uc.updateStep(param.p_grp, param.p_step); ''}
+<jsp:setProperty name="gesipan" property="step" value="${param.p_step+1}" />
+
+<c:set var="row" value="${ic.insertReply(gesipan)}" />
+
+<!-- 답글 달기 성공 시  -->
+<c:if test="${row eq 1 }" > 
 	<script>
 		location.href="index.html";
 	</script>
@@ -30,6 +55,7 @@
 
 <c:if test="${row ne 1 }" >
 	<script>
+		alert("insert fail");
 		history.back();
 	</script>
 </c:if>
