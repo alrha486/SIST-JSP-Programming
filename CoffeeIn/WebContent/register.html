@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>회원가입 창</title>
+	<script src="js/jquery.min.js"></script>
+	<script>
+		$(function(){
+			$('#btnZipsearch').click(function(){
+				var win1 = window.open('/2조프젝/zipSearch.jsp', '_blank', 'left=1000,top=100,width=800,height=800');
+			});
+		});
+	</script>
+	<style type="text/css">
+		ul > li { list-style-type: none; padding: 5px 0px }
+	</style>
+</head>
+<body>
+	<h1>회원가입</h1>
+		<form action="/CoffeeIn/register.jsp" method="post" name="myform">
+		<ul>
+			<li>ID : <input type="text" name="userid" placeholder="Enter your ID" required="required"></li>
+			<li>Password : <input type="password" name="passwd" placeholder="Enter your password" required="required"></li>
+			<li>Password(Confirm) : <input type="password" name="passwd1" placeholder="Enter your password again" required="required"></li>
+			<li>Name : <input type="text" name="username" placeholder="Enter your name" required="required"></li>
+			<li>Email : <input type="email" name="email" placeholder="Enter your email address" required="required" size="40"></li>
+			<li>Tel : <input type="text" name="tel" placeholder="Enter your ID" required="required"></li>
+			<li>Zippost : <input type="text" name="zippost1" readonly="readonly" size="5"> - <input type="text" name="zippost2" readonly="readonly" size="5">
+				<input type="button" id="btnZipsearch" value="우편번호검색"></li>
+			<li>Address : <input type="text" name="address1" readonly="readonly" size="50"></li>
+			<li>Address1 : <input type="text" name="address2"></li>
+			<li><input type="submit" value="가입하기">&nbsp;&nbsp;
+				<input type="reset" value="다시하기"></li>
+		</ul>
+	</form>	
+</body>
+</html>
