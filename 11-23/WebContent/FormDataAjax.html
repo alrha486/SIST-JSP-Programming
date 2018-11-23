@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script>
+		window.onload = setup;
+		function setup(){
+			document.getElementById("btnGetdata").onclick = myclick;
+		}
+		var xhr = null;
+		function myclick(){
+			//e.preventDefault();   //submit 버튼일 경우
+			xhr = new XMLHttpRequest();//1.
+			//var formData = new FormData(document.myform);
+			var formData = new FormData();
+			formData.append("username", document.getElementById("username").value);
+			formData.append("userage", document.getElementById("userage").value);
+			formData.append("userphone", document.getElementById("userphone").value);
+			xhr.onload = callback;   //2.
+			xhr.open("POST", "FormDataServlet");   //3.  반드시 POST만, Servlet만
+			xhr.send(formData);   //4.
+		}
+		function callback(){
+			if(xhr.status == 200 || xhr.status == 201){
+				document.getElementById("result").innerHTML = xhr.responseText;
+			}
+		}
+	</script>
+</head>
+<body>
+	<h1>FormData 전송하기</h1>
+	<form name="myform">
+		<ul>
+		<li>Name : <input type="text" id="username" name="username"/></li>
+		<li>Age : <input type="number" id="userage" name="userage"/></li>
+		<li>Phone : <input type="tel" id="userphone" name="userphone"/></li>
+		<li><button type="button" id='btnGetdata'>Get Data</button></li>
+	</ul>
+	</form>
+	Result : <output id="result"></output>
+</body>
+</html>

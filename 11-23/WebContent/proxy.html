@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>전자신문 오늘의 뉴스</title>
+	<script src="script/jquery.min.js"></script>
+	<script>
+		$(function(){
+			$.ajax({
+				url : "proxy.jsp",
+				method : "get",
+				dataType : "xml",
+				error : function(err){
+					console.log(err);
+				},
+				success : function(data){
+					var xmlDoc = data;
+					var array = xmlDoc.getElementsByTagName("item");
+					var str = "";
+					for(var i = 0 ; i < array.length ; i++){
+						var item = array[i];
+						str += "<tr><td>" + (i + 1) + "</td>";
+						
+						var author = item.getElementsByTagName("author").item(0);
+						author = author.firstChild.nodeValue;
+						str += "<td>" + author + "</td>";
+						
+						var title = item.getElementsByTagName("title").item(0);
+						title = title.firstChild.nodeValue;
+						var guid = item.getElementsByTagName("guid").item(0);
+						guid = guid.firstChild.nodeValue;
+						title = "<a href='javascript:void(0)' onclick=openPage(" + guid + ")>" + title + "</a>";
+						str += "<td>" + title + "</td>";
+						
+						var pubDate = item.getElementsByTagName("pubDate").item(0);
+						pubDate = pubDate.firstChild.nodeValue;
+						str += "<td>" + pubDate + "</td>";
+						str += "</tr>";
+					}
+					$("#result").html(str);
+					$("h3").html("전자신문 " + new Date() + "오늘의 기사")
+					.css("text-align", "center");
+				}
+			});
+		});
+		function openPage(guid){
+			window.open("http://www.etnews.com/" + guid, "_blank", "width=800,height=800");
+		}
+	</script>
+</head>
+<body>
+	<h3></h3>
+	<table border='1' style="width:70%;margin-left:auto;margin-right:auto">
+		<thead>
+			<tr>
+				<th style="width:10%">번호</th>
+				<th style="width:20%">작성자</th>
+				<th style="width:50%">제목</th>
+				<th style="width:20%">게시날짜</th>
+			</tr>
+		</thead>
+		<tbody id="result"></tbody>
+	</table>
+</body>
+</html>
+
+
+
+

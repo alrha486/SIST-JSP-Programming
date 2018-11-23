@@ -27,6 +27,7 @@
 			});
 		});
 	</script>
+	
 </head>
 <body>
 	<h1>카카오 회원가입</h1>  <!-- 카카오 회원가입은 이름,폰번,이메일만 받아서 DB에 저장  -->
@@ -34,6 +35,7 @@
 		<ul>
 			<li><input type="hidden" name="userid" value="${userid}" /></li>
 			<li>Name : <input type="text" name="username"  readonly="readonly" value=${username} /></li>
+			<li>닉네임 : <input type="text" name="usernickname" placeholder="Enter your Nickname" required/></li>
 			<li>Email : <input type="email" name="email" placeholder="Enter your email address" required="required" size="40"></li>
 			<li>Tel : <input type="text" name="tel" placeholder="Enter your ID" required="required"></li>
 			<li><input type="submit" value="가입하기">&nbsp;&nbsp;

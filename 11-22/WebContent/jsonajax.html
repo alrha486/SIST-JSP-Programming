@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script>
+		window.addEventListener('load', setup);
+		function setup(){
+			document.getElementById("btnGetdata").addEventListener('click', myclick);
+		}
+		var xhr;
+		function myclick(){
+			xhr = new XMLHttpRequest();  //1. 단계
+			xhr.onload = mycallback;   //2. 단계
+			var data = {
+				"username" : document.getElementById("username").value,
+				"userage" : document.getElementById("userage").value,
+				"userphone" : document.getElementById("userphone").value
+			};
+			xhr.open("POST", "getData1.jsp");
+			//반드시 POST 방식에서는 setRequestHeader()를 설정해야 한다.
+			xhr.setRequestHeader("Content-Type", "application/json");
+			//POST 방식에서는 반드시 send(data)를 넣을 것.
+			xhr.send(JSON.stringify(data));
+		}
+		function mycallback(){
+			if(xhr.status == 200 || xhr.status == 201){
+				document.getElementById("result").innerHTML = xhr.responseText;
+			}
+		}
+	</script>
+</head>
+<body>
+	<h1>User Info : JSON</h1>
+	<ul>
+		<li>Name : <input type="text" id="username" /></li>
+		<li>Age : <input type="number" id="userage" /></li>
+		<li>Phone : <input type="tel" id="userphone" /></li>
+		<li><button type="button" id='btnGetdata'>Get Data</button></li>
+	</ul>
+	Result : <span id="result"></span>
+</body>
+</html>

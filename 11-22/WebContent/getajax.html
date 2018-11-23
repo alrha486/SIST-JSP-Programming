@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src="script/jquery.min.js"></script>
+	<script>
+		$(function(){
+			$("#btnGetdata").bind('click', function(){
+				//1st way
+				/* var param = "username=" + $("#username").val() +
+									"&userage=" + $("#userage").val() +
+									"&userphone=" + $("#userphone").val(); */
+				//2nd way
+				/* var data = {
+					username : $("#username").val(),
+					userage : $("#userage").val(),
+					userphone : $("#userphone").val()
+				};
+				var param = $.param(data); */
+				//3rd way
+				var data = {
+					username : $("#username").val(),
+					userage : $("#userage").val(),
+					userphone : $("#userphone").val()
+				}
+				$("#result").load("getData.jsp", data);
+			});
+			/* $("#btnGetdata").bind('click', function(){
+				$.ajax({
+					url : "getData.jsp",
+					method : "GET",
+					data : {
+						username : $("#username").val(),
+						userage : $("#userage").val(),
+						userphone : $("#userphone").val() 
+					},
+					success : function(data){
+						//document.getElementById("result").innerHTML = xhr.responseText;
+						$("#result").html(data);
+					}
+				});
+			}); */
+		});
+		/* window.addEventListener('load', setup);
+		function setup(){
+			document.getElementById("btnGetdata").addEventListener('click', myclick);
+		}
+		var xhr;
+		function myclick(){
+			xhr = new XMLHttpRequest();  //1. 단계
+			xhr.onreadystatechange = mycallback;  //2. 단계
+			var param = "username=" + document.getElementById("username").value + 
+								"&userage=" + document.getElementById("userage").value +
+								"&userphone=" + document.getElementById("userphone").value;
+			xhr.open("GET", "getData.jsp?"+ param);  //3. 단계
+			xhr.send(null);   //4. 단계
+		}
+		function mycallback(){
+			if(xhr.readyState == xhr.DONE && xhr.status == 200){
+				document.getElementById("result").innerHTML = xhr.responseText;
+			}
+		} */
+	</script>
+</head>
+<body>
+	<h1>User Info : GET</h1>
+	<ul>
+		<li>Name : <input type="text" id="username" /></li>
+		<li>Age : <input type="number" id="userage" /></li>
+		<li>Phone : <input type="tel" id="userphone" /></li>
+		<li><button type="button" id='btnGetdata'>Get Data</button></li>
+	</ul>
+	Result : <span id="result"></span>
+</body>
+</html>

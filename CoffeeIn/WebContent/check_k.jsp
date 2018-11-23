@@ -7,7 +7,7 @@
 <jsp:useBean id="member" class="com.example.libs.model.MemberVO" />
 <jsp:useBean id="sc" class="com.example.libs.controller.selectController" />
 
-<c:set var="userid" value="${sessionScope.userid}" />
+<c:set var="userid" value="${param.userid}" />
 <c:set var="username" value="${param.username}" /> <!-- 카카오 , 네이버-->
 <c:set var="k_member" value="${sc.selectMember(userid)}" /> <!-- 카카오 -->
 <c:set var="kakao" value="${k_member.userid}" />
@@ -50,7 +50,7 @@
 	//session.setAttribute("username", username); // 로그인 성공시 세션 세팅
 	%>
 	<script>
-	location.href="index.html";
+	location.href="index.jsp";
 	</script>
 </c:if>
 

@@ -5,6 +5,8 @@ import java.util.Date;
 public class MemberVO {
 	private int idx;
 	private String username;
+	private String usernickname;
+
 	private String userid;
 	private String passwd;
 	private String email;
@@ -18,26 +20,29 @@ public class MemberVO {
 	public MemberVO() { 
 	}// 디폴트생성자		
 	
-	public MemberVO(String username, String userid, String passwd, String email, String tel, Date regdate) { 
+	public MemberVO(String username,String usernickname ,String userid, String passwd, String email, String tel, Date regdate) { 
 		this.username = username;
+		this.usernickname = usernickname;
 		this.userid = userid;
 		this.passwd = passwd;
 		this.email = email;
 		this.tel = tel;
 		this.regdate = regdate;
-	}// 필수입력 생성자
+	}// 필수입력 생성자 --> 이거뭐지 ?필요없을듯
 	
-	public MemberVO(String userid, String username, String tel, String email) { 
+	public MemberVO(String userid, String username, String usernickname, String email,String tel) { 
 		this.userid = userid;
 		this.username = username;
+		this.usernickname = usernickname;
 		this.email = email;
 		this.tel = tel;
-	}//카카오톡 간편 회원가입 전용 생성자
+	}//카카오톡,네이버 간편 회원가입 전용 생성자
 
 
-	public MemberVO(String username, String userid, String passwd, String email, String tel,String zipcode,
-			String address1, String address2) {
+	public MemberVO(String username, String userid, String usernickname,String passwd, String email, 
+			String tel,String zipcode,	String address1, String address2) {
 		this.username = username;
+		this.usernickname = usernickname;
 		this.userid = userid;
 		this.passwd = passwd;
 		this.email = email;
@@ -75,6 +80,13 @@ public class MemberVO {
 	}
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	public String getUsernickname() {
+		return usernickname;
+	}
+
+	public void setUsernickname(String usernickname) {
+		this.usernickname = usernickname;
 	}
 	public String getUserid() {
 		return userid;

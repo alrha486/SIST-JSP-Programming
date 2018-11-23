@@ -52,7 +52,7 @@ public class MemberDAO { // data access object DAO
 		rs.next();
 		
 		MemberVO member = new MemberVO(
-				rs.getString("username"), rs.getString("userid"),
+				rs.getString("username"),rs.getString("usernickname") ,rs.getString("userid"),
 				rs.getString("passwd"), rs.getString("email"),rs.getString("tel"),
 				rs.getString("zipcode"), rs.getString("address1"),
 				rs.getString("address2")
@@ -77,7 +77,7 @@ public class MemberDAO { // data access object DAO
 			rs.next();
 			
 			MemberVO member = new MemberVO(
-					rs.getString("username"), rs.getString("userid"),
+					rs.getString("username"), rs.getString("usernickname"),rs.getString("userid"),
 					rs.getString("passwd"), rs.getString("email"),rs.getString("tel"),
 					rs.getString("zipcode"), rs.getString("address1"),
 					rs.getString("address2")
@@ -119,17 +119,18 @@ public class MemberDAO { // data access object DAO
 		return row;
 	}
 	
-	// 회원가입 
+	// 네이버, 카카오톡 로그인
 	public static int kakaoMember(MemberVO member) throws SQLException {  
 		// 값이 세팅 된 MemberVO 형 member 가 넘어옴 7개의 데이터 
 		Connection conn = DBConnection.getConnection(); // member.jocl
-		String sql = "{ call kakao_insert(?,?,?,?) }"; // 카카오 회원가입 전용 프로시저로 바꾸고 DB생성 
+		String sql = "{ call kakao_insert(?,?,?,?,?) }"; // 카카오 회원가입 전용 프로시저로 바꾸고 DB생성 
 		// Callable Statement >> call 프로시듀어 명 
 		CallableStatement cstmt = conn.prepareCall(sql);
 		cstmt.setString(1, member.getUserid());
 		cstmt.setString(2, member.getUsername());
-		cstmt.setString(3, member.getEmail());
-		cstmt.setString(4, member.getTel());
+		cstmt.setString(3, member.getUsernickname());
+		cstmt.setString(4, member.getEmail());
+		cstmt.setString(5, member.getTel());
 
 		int row = cstmt.executeUpdate();
 		
@@ -144,19 +145,20 @@ public class MemberDAO { // data access object DAO
 	public static int insertMember(MemberVO member) throws SQLException {  
 		// 값이 세팅 된 MemberVO 형 member 가 넘어옴 7개의 데이터 
 		Connection conn = DBConnection.getConnection(); // member.jocl
-		String sql = "{ call member_insert(?,?,?,?,?,?,?,?) }";
+		String sql = "{ call member_insert(?,?,?,?,?,?,?,?,?) }";
 		// Callable Statement >> call 프로시듀어 명 
 		CallableStatement cstmt = conn.prepareCall(sql);
+
 		cstmt.setString(1, member.getUserid());
 		cstmt.setString(2, member.getPasswd());
 		cstmt.setString(3, member.getUsername());
-		cstmt.setString(4, member.getEmail());
-		cstmt.setString(5, member.getTel());
-		cstmt.setString(6, member.getZipcode());
-		cstmt.setString(7, member.getAddress1());
-		cstmt.setString(8, member.getAddress2());
+		cstmt.setString(4, member.getUsernickname());
+		cstmt.setString(5, member.getEmail());
+		cstmt.setString(6, member.getTel());
+		cstmt.setString(7, member.getZipcode());
+		cstmt.setString(8, member.getAddress1());
+		cstmt.setString(9, member.getAddress2());
 		int row = cstmt.executeUpdate();
-			System.out.println(row);
 		
 		if(cstmt != null) cstmt.close();
 		DBClose.close(conn);

@@ -11,9 +11,9 @@
 
 <%
 	 MemberVO member = new MemberVO( // 카카오 간편 회원가입 전용 생성자 호출
-			request.getParameter("userid"),request.getParameter("username"),
-			request.getParameter("tel"),request.getParameter("email")
-			); // 생성자에 4개 세팅하기 
+			request.getParameter("userid"),request.getParameter("username"),request.getParameter("usernickname"),
+			request.getParameter("email"),request.getParameter("tel")
+	); // 생성자에 5개 세팅하기 
 			 
  	int row = ic.kakaoMember(member); // 입력 성공시 1을 반환
 	pageContext.setAttribute("row", row); 
@@ -25,7 +25,7 @@
 %>
 
 	<script>
-	alert("Insert success");
+	alert("회원가입을 축하드립니다.");
 	location.href="index.jsp";
 	</script>
 </c:if>

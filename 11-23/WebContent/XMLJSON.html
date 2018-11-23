@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>XML URL에서 불러오기</title>
+	<script>
+	window.addEventListener('load', setup);
+	function setup(){
+		document.getElementById("btn").addEventListener('click', myclick);
+	}
+	var xhr;
+	function myclick(){
+		xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = callback;
+		xhr.open("GET", "XML.jsp");
+		xhr.send(null);
+	}
+
+	function callback(){
+	if(xhr.status == 200 || xhr.status == 201){
+		document.getElementById("result").innerHTML = xhr.responseText;
+	}
+	
+	
+	} 
+	</script>
+</head>
+<body>
+	버튼을 눌러주시면 영화 정보가 나옵니다.
+	<input type="button" id="btn" value="클릭">
+	<output id="result"></output>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>File Upload</title>
+	<style type="text/css">
+		#progress { display : none}
+	</style>
+	<script>
+		window.onload = setup;
+		function setup(){
+			document.getElementById("file").onchange = mychange;
+			document.uploadform.onsubmit = mysubmit;
+		}
+		var xhr = null;
+		function mysubmit(evt){
+			evt.preventDefault();  //submit 기능 없애기
+			var formData = new FormData(this);
+			xhr = new XMLHttpRequest();
+			xhr.open("POST", "UploadServlet");
+			var myupload = xhr.upload;  //read-only, XMLHttpRequestUpload Object
+			myupload.onloadstart = function(){
+				document.getElementById("progress").style.display = "inline";
+			}
+			myupload.onloadend = function(){
+				document.getElementById("progress").style.display = "none";
+			}
+			myupload.onprogress = function(evt){
+				document.getElementById("progress").max = evt.total;  //맥스값
+				document.getElementById("progress").value = evt.loaded;  //현재값
+			}
+			myupload.onload = function(){  //성공적으로 upload 끝
+				console.log("success");
+				document.getElementById("result").innerHTML = xhr.responseText;
+			}
+			myupload.onerror = function(err){
+				document.getElementById("result").innerHTML = 
+											"<span style='color:red'>" + err + "</span>"; 
+			}
+			xhr.send(formData);
+		}
+		function mychange(){
+			document.getElementById("fileName").value = this.files[0].name;
+		}
+	</script>
+</head>
+<body>
+	<form name="uploadform">
+		File : <input type="file" id="file" name="file" />
+		<input type="hidden" id="fileName" name="fileName" />
+		<input type="submit" value="Upload" />
+		<progress id="progress"></progress> 
+		Result : <output id="result"></output>
+	</form>
+	
+</body>
+</html>

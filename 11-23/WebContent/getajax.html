@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script>
+		window.addEventListener('load', setup);
+		function setup(){
+			document.getElementById("userphone").addEventListener('change', mychange);
+		}
+		var xhr;
+		function mychange(){
+			xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = mycallback;
+			var param = "username=" + document.getElementById("username").value + 
+								"&userage=" + document.getElementById("userage").value +
+								"&userphone=" + document.getElementById("userphone").value;
+			xhr.open("GET", "GetDemoServlet?"+ param, true);
+			xhr.send(null);
+		}
+		function mycallback(){
+			if(xhr.readyState == 4 && xhr.status == 200){
+				document.getElementById("result").innerHTML = xhr.responseText;
+			}
+		}
+	</script>
+</head>
+<body>
+	<h1>User Info : GET</h1>
+	<h3>핸드폰번호를 넣으시고 아무데나 클릭하세요.</h3>
+	<ul>
+		<li>Name : <input type="text" id="username" /></li>
+		<li>Age : <input type="number" id="userage" /></li>
+		<li>Phone : <input type="tel" id="userphone" /></li>
+	</ul>
+	Result : <span id="result"></span>
+</body>
+</html>

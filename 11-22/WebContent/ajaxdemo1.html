@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script>
+		window.onload = function(){
+			document.getElementById("btnGetdata").onclick = myclick;
+		}
+		function myclick(){
+			var xhr = new XMLHttpRequest();
+			xhr.onload = function(){
+				if(xhr.status == 200 || xhr.status == 201){
+					var obj = JSON.parse(xhr.responseText);
+					var array = obj.results;
+					var str = "";
+					for(var i = 0 ; i < array.length ; i++){
+						str += "<tr>";
+						str += "<td>" + array[i]["id"] + "</td>";
+						str += "<td>" + array[i]["name"] + "</td>";
+						str += "<td>" + array[i]["countrycode"] + "</td>";
+						str += "<td>" + array[i]["district"] + "</td>";
+						str += "<td>" + array[i]["population"] + "</td>";
+						str += "</tr>";
+					}
+					document.getElementById("result").innerHTML = str;
+				}
+			}
+			xhr.open("POST", "ajaxdemo1.jsp");
+			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			xhr.send("code=" + document.getElementById("txtCountryCode").value);
+		}
+	</script>
+</head>
+<body>
+	Country Code : <input type="text" id="txtCountryCode" />
+	<input type="button" value="Get Data" id="btnGetdata">
+	<br />
+	<table border='1'>
+		<thead>
+			<tr>
+				<th>일련번호</th><th>도시명</th><th>국가코드</th>
+				<th>지역</th><th>인구</th>
+			</tr>
+		</thead>
+		<tbody id="result"></tbody>
+	</table>
+</body>
+</html>
+
+
+
+
+
