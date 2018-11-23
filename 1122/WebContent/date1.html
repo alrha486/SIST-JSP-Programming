@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src="script/jquery.min.js"></script>
+	<script>
+		$(function(){
+			$("#btnGetdate").click(function(){
+				$("#result").load("date.jsp");
+			});
+		});
+	</script>
+	</head>
+	<body>
+		Today : <span id="result"></span>
+		<button type="button" id="btnGetdate">Get Date</button>
+	</body>
+</html>

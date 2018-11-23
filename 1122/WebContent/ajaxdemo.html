@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script>
+		var xhr = null;
+		function getCountryCode(){
+			xhr.onload = function(){
+				if(xhr.status == 200 || xhr.status == 201){
+					var xmlDoc = xhr.responseXML;
+					var array = xmlDoc.getElementsByTagName("countrycode");
+					var str = "<option>--선택--</option>";
+					for(var i = 0 ; i < array.length ; i++){
+						str += "<option>" + array.item(i).firstChild.nodeValue + "</option>";
+					}
+					document.getElementById("countryList").innerHTML = str;
+				}
+			};
+			xhr.open("GET", "getCountryCode.jsp");
+			xhr.send(null);
+		}
+		function mychange(){
+			var param = "code=" + this.value;
+			xhr.onload = callback;
+			xhr.open("GET", "ajaxdemo.jsp?" + param);
+			xhr.send(null);
+		}
+		function callback(){
+			if(xhr.status == 200 || xhr.status == 201){
+				var xmlDoc = xhr.responseXML;
+				var array = xmlDoc.getElementsByTagName("city");
+				var str = "";
+				for(var i = 0 ; i < array.length ; i++){
+					str += "<tr>";
+					var city = array.item(i);
+					str += "<td>" + city.getAttribute('id') + "</td>";
+					str += "<td>" + city.getElementsByTagName("name").item(0).firstChild.nodeValue + "</td>";
+					str += "<td>" + city.getElementsByTagName("countrycode").item(0).firstChild.nodeValue + "</td>";
+					str += "<td>" + city.getElementsByTagName("district").item(0).firstChild.nodeValue + "</td>";
+					str += "<td>" + city.getElementsByTagName("population").item(0).firstChild.nodeValue + "</td>";
+					str += "</tr>";
+				}
+				document.getElementById("result").innerHTML = str;
+			}
+		}
+		window.onload = function(){
+			xhr = new XMLHttpRequest();	
+			getCountryCode();
+			document.getElementById("countryList").onchange = mychange;
+		}
+	</script>
+</head>
+<body>
+	Country Code : <select id="countryList"></select>
+	<br />
+	<table border='1'>
+		<thead>
+			<tr>
+				<th>일련번호</th><th>도시명</th><th>국가코드</th>
+				<th>지역</th><th>인구</th>
+			</tr>
+		</thead>
+		<tbody id="result"></tbody>
+	</table>
+</body>
+</html>
+
+
+
+
+

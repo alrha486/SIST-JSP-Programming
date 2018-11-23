@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Ajax File Type : JSON</title>
+	<style type="text/css">
+		td { border : 1px solid black}
+	</style>
+	<script src="script/jquery.min.js"></script>
+	<script>
+		$(function(){
+			$("#btnGetData").click(function(){
+				$.getJSON("sungjuk_utf8.json", function(data){
+					console.log(data.students.length);
+				});
+			});
+		});
+		/* window.addEventListener('load', setup);
+		function setup(){
+			document.getElementById("btnGetData").addEventListener('click', myclick);
+		}
+		var xhr;
+		function myclick(){
+			xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = callback;
+			xhr.open("GET", "sungjuk_utf8.json");
+			xhr.send(null);
+		}
+		function callback(){
+			if(xhr.readyState == 4 && xhr.status == 200){
+				var obj = JSON.parse(xhr.responseText);
+				var array = obj.students;
+				var str = "";
+				for(var i = 0 ; i < array.length ; i++){
+					str += "<tr>";
+					str += "<td>" + array[i]["hakbun"] + "</td>" +
+								"<td>" + array[i].irum + "</td>" +
+								"<td>" + array[i]["kor"] + "</td>" +
+								"<td>" + array[i]["eng"] + "</td>" +
+								"<td>" + array[i]["mat"] + "</td>" +
+								"<td>" + array[i]["edp"] + "</td>";
+					str += "</tr>";
+				}
+				document.getElementById("result").innerHTML = str;
+			}
+		} */
+	</script>
+</head>
+<body>
+	<h1>성적데이터 : JSON File</h1>
+	<input type="button" value="Get Data" id="btnGetData"/><br />
+	<table style="border-collapse:collapse;border:1px solid black;width:600px;margin-left:auto;margin-right:auto">
+		<thead>
+			<tr style="background-color:navy;color:white">
+				<th>학번</th><th>이름</th><th>국어</th><th>영어</th>
+				<th>수학</th><th>전산</th>
+			</tr>
+		</thead>
+		<tbody id="result"></tbody>
+	</table>
+</body>
+</html>
