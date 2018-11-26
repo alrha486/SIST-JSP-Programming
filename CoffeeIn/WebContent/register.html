@@ -5,46 +5,92 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>회원가입 창</title>
 	<script src="js/jquery.min.js"></script>
-		<script>
+	<script> 
+			window.addEventListener('load', setup); // 윈도우가 로딩되면 setup 함수 실행
+			
+			function setup(){ 
+				document.getElementById("btnIDCheck").addEventListener('click', myclick); // ID중복체크
+				document.getElementById("btnNickCheck").addEventListener('click', myclick1); //닉네임중복체크
+			}
+	
 			$(function(){
-				$('#btnZipsearch').click(function(){
+				$('#btnZipsearch').click(function(){ //우편번호 검색
 					var win1 = window.open('/CoffeeIn/zipSearch.jsp', '_blank', 'left=1000,top=100,width=800,height=800');
 				});
-			});
-		</script>
-<!-- ========================================= -->
-		<script>
-		window.addEventListener('load', setup);
-		function setup(){
-			document.getElementById("btnIDCheck").addEventListener('click', myclick);
-			document.getElementById("btnJoin").addEventListener('click', myjoin);
-		}
-		
-/* 		function myjoin(){// 회원가입 버튼 눌렀을 떄 
-			var pw1 = document.getElementById("pw1").value;
-			var pw2 = document.getElementById("pw2").value;			
-		} */
+			});			
+			
+			function sendit() {  // 회원가입폼의 submit 버튼 누르면 호출되는 함수
+				var idResult = document.getElementById("idresult").value; // id 중복체크 했는지 여부 
+	 			var pw1 = document.getElementById("pw1").value;  // 비밀번호
+				var pw2 = document.getElementById("pw2").value; // 비밀번호 확인
+ 				var nickResult = document.getElementById("nickresult").value; // 닉네임 중복체크 했는지 여부				
+ 				var usename = document.getElementById("username");					
+ 				var pattern = /^[가-힣]{2,4}$/; // 이름 정규식
+ 				var regExp = /^\d{3}\d{3,4}\d{4}$/; // 전화번호 정규식
+ 				var pattern1 = /^[A-Za-z0-9]{4,12}$/; // 비밀번호 정규식
+	 			var tel = document.getElementById("tel");
+	 			
+ 				
+	 			if(idResult != "idCheck"){ // ID중복체크 안했으면
+	 				alert("ID중복체크를 해주세요."); 
+	 				return false;
+	 			} else if(!pattern1.test(pw1.value)){ // 비밀번호 정규식 위반
+ 					alert('비밀번호는  영문대,소문자 , 숫자 4 ~12 자리로 입력해 주세요.');
+ 					pw1 = "";
+ 					pw2 = "";
+ 					return false;
+ 				}else if(pw1 != pw2){
+ 					alert('비밀번호를 확인해주세요!');
+ 					pw2 = "";
+ 					return false;
+ 				}else if(!pattern.test(username.value)){
+ 					alert('이름은 2 ~ 4글자(공백 없음)로 입력해 주세요.');
+ 					username.value = "";
+ 					return false;
+ 				}else if(nickResult != "nickCheck"){ // 중복체 크 안하면 그대로 none 
+	 				alert("닉네임중복체크를 해주세요."); 
+	 				return false;
+	 			}else if(!regExp.test(tel.value)){
+ 					alert('전화번호를 제대로 입력해주세요');
+ 					tel.value = "";
+ 					return false;
+ 				}	 		 
+	 				 document.forms["myform"].submit(); // if문을 다 통과했으면 submit 실행 
+	 			
+				} // sendit() 끝
 
+				
+	 			function myclick(){ // ID중복체크 버튼 누르면
+					var userid = document.getElementById("userid").value;						
+	 				var pattern = /^[A-Za-z0-9]{4,12}$/; // ID정규식
+			
+	 				if(userid == ""){
+						alert("id를 입력해주세요");
+						return false;
+					}else if(!pattern.test(userid)){
+						alert('영문대,소문자 , 숫자 4 ~12 자리로 입력해 주세요.');
+					}else{					
+					window.open("idCheck.jsp?userid=" + userid,"id체크", "width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+					}
+				}	
+	 			
+	 			function myclick1(){ // 닉네임 중복체크 버튼 누르면
+					var usernickname = document.getElementById("usernickname").value;
+		 			var pattern1 = /^[\w가-힣]{2,20}$/; //닉네임정규식
+	
+					if(usernickname == ""){
+						alert("닉네임을 입력해주세요");
+						return false;
+					}else if(!pattern1.test(usernickname)){
+	 					alert('닉네임은 특수문자 및 공백을 사용하실 수 없습니다.');
+	 					usernickname = "";
+	 					return false;
+	 				}else{
+					window.open("nickCheck.jsp?usernickname=" + usernickname,"닉네임 체크", "width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+					}
+				}			
+	</script>
 		
-		
-		var xhr;
-		function myclick(){
-			xhr = new XMLHttpRequest();
-			xhr.onreadystatechange = callback; 	
-			var userid = document.getElementById("userid").value;
-			xhr.open("GET", "idCheck.jsp?userid="+userid);
-					
-			xhr.send(null);
-		} 
-
-		
-		function callback(){
-		if(xhr.status == 200 || xhr.status == 201){
-			document.getElementById("result").innerHTML = xhr.responseText;	
-		}
-		
-		} 
-		</script>
 	<style type="text/css">
 		ul > li { list-style-type: none; padding: 5px 0px }
 	</style>
@@ -53,22 +99,26 @@
 	<h1>회원가입</h1> <!--  일반회원가입은 다 집어넣어야함 필수 -->
 								 <!--  그래서 다 required로 했음 -->
 		<!-- <form action="/CoffeeIn/register.jsp" method="post" name="myform"> -->
-		<form method="post" name="myform">
+		<form method="post" name="myform" id="myform" onsubmit="sendit(); return false;" action="/CoffeeIn/register.jsp"> 
 		<ul>
 			<li>ID : <input type="text" name="userid" id="userid" placeholder="Enter your ID" required="required">
-			<input type="button" value="ID중복체크" id="btnIDCheck">
-		    <output id="result"></output></li>
+			<input type="button" value="ID중복체크" id="btnIDCheck"></li>
 			<li>Password : <input type="password" name="passwd"  id="pw1" placeholder="Enter your password" required="required"></li>
 			<li>Password(Confirm) : <input type="password" name="passwd1"  id="pw2"  placeholder="Enter your password again" required="required"></li>
-			<li>Name : <input type="text" name="username"placeholder="Enter your name" required="required"></li>
-			<li>닉네임 : <input type="text" name="usernickname" placeholder="Enter your Nickname" required="required"/></li>
+			<li>Name : <input type="text" name="username" id="username" placeholder="Enter your name" required="required"></li>
+			<li>닉네임 : <input type="text" name="usernickname" id="usernickname" placeholder="Enter your Nickname" required="required"/>
+			<input type="button" value="닉네임중복체크" id="btnNickCheck"></li>
 			<li>Email : <input type="email" name="email" placeholder="Enter your email address" required="required" size="40"></li>
-			<li>Tel : <input type="text" name="tel" placeholder="Enter your ID" required="required"></li>
-			<li>Zippost : <input type="text" name="zippost1" readonly="readonly" size="5" required="required">
+			<li>Tel : <input type="text" name="tel" id="tel" placeholder="Enter your ID" required="required"></li>
+			<li>Zippost : <input type="text" name="zippost1" readonly="readonly" size="5" >
 			 - <input type="text" name="zippost2" readonly="readonly" size="5" required="required">
 					<input type="button" id="btnZipsearch" value="우편번호검색" ></li>
-			<li>Address : <input type="text" name="address1" readonly="readonly" size="50" required="required"></li>
-			<li>Address1 : <input type="text" name="address2" required="required"></li>
+			<li>Address : <input type="text" name="address1" readonly="readonly" size="50" ></li>
+			<li>Address1 : <input type="text" name="address2" ></li>
+			
+			<li><input type="hidden" id="idresult" name="idresult" value="none" /></li>
+			<li><input type="hidden" id="nickresult" name="nickresult" value="none" /></li>
+			
 			<li><input type="submit" value="가입하기" id="btnJoin">&nbsp;&nbsp;
 				<input type="reset" value="다시하기"></li>
 		</ul>

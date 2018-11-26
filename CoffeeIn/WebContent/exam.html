@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>회원가입 창</title>
+	<script src="js/jquery.min.js"></script>
+	<script> 
+			
+			function sendit() {  // 회원가입폼의 submit 버튼 누르면 호출되는 함수
+ 				var pattern = /^[가-힣]{2,4}$/;
+ 				var username = document.getElementById("username");
+ 				if(!pattern.test(username.value)){
+ 					alert('한글은 2 ~ 4글자(공백 없음)로 입력해 주세요.');
+ 					return false;
+ 				}
+	 			
+	 			document.forms["myform"].submit(); // if문을 다 통과했으면 submit 실행
+			
+			}// sendit() 끝
+
+
+	</script>
+
+</head>
+<body>
+		<form method="post" name="myform" id="myform" onsubmit="sendit(); return false;" action="/CoffeeIn/register.jsp"> 
+		<ul>
+
+			<li>Name : <input type="text" name="username" id="username" placeholder="Enter your name" required="required"></li>
+			<li><input type="submit" value="가입하기" id="btnJoin">&nbsp;&nbsp;
+				<input type="reset" value="다시하기"></li>
+		</ul>
+	</form>	
+</body>
+</html>

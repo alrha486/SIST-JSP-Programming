@@ -49,7 +49,10 @@
 			</c:if>
 		</p>
 	</div>
+
 	</div>
-	
+				<a href="p_list.jsp"><h3>상품리스트</h3></a><br>
+				<a href="cart.jsp"><h3>장바구니</h3></a><br>
+
 </body>
 </html>

@@ -22,6 +22,7 @@
 <c:if test="${row eq 1 }">
 <%
 	session.setAttribute("username", request.getParameter("username")); // 로그인 성공시 세션 세팅
+	session.setAttribute("userid", request.getParameter("userid")); // 로그인 성공시 세션 세팅
 %>
 
 	<script>

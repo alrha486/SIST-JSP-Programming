@@ -24,7 +24,13 @@
 
 <c:if test="${row eq 1 }">
 	<script>
-	alert("Insert success");
+	alert("회원가입을 축하드립니다.");
+	<%
+		String username = request.getParameter("username");
+		String userid = request.getParameter("userid");
+		session.setAttribute("username",username);
+		session.setAttribute("userid",userid);
+	%>
 	location.href="index.html";
 	</script>
 </c:if>
