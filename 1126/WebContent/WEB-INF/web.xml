@@ -1,25 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>1126</display-name>
+  <listener>
+  	<listener-class>com.example.listener.MyListener</listener-class>
+  </listener>
   
-  <servlet>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <!-- 
+  <filter>
+  	<filter-name>MyWrapperFilter</filter-name>
+  	<filter-class>com.example.filter.MyWrapperFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>MyWrapperFilter</filter-name>
+  	<url-pattern>*.jsp</url-pattern> 
+  </filter-mapping>
+  
+  
+  
+   -->
+  <!-- <filter>
+  	<filter-name>MyFilter</filter-name>
+  	<filter-class>com.example.filter.MyFilter</filter-class>
+  </filter> -->
+  
+  <!-- <filter>
+  	<filter-name>LoginFilter</filter-name>
+  	<filter-class>com.example.filter.LoginFilter</filter-class>
+  </filter>
+  
+   <filter>
+  	<filter-name>LoggingFilter</filter-name>
+  	<filter-class>com.example.filter.LoggingFilter</filter-class>
+  	<init-param>
+  		<param-name>mylog</param-name>
+  		<param-value>C:/temp/mylog.txt</param-value>
+  	</init-param>
+  </filter>
+  <filter-mapping>
+  	<filter-name>LoggingFilter</filter-name>
+  	<url-pattern>*.jsp</url-pattern> 
+  	<servlet-name>Hello</servlet-name> 
+  </filter-mapping>
+  
+  <filter-mapping>
+  	<filter-name>LoginFilter</filter-name>
+  	<url-pattern>/membership/*</url-pattern> 
+  </filter-mapping> -->
+  
+  <!-- <filter-mapping>
+  	<filter-name>MyFilter</filter-name>
+  	<url-pattern>*.jsp</url-pattern> 
+  	<servlet-name>Hello</servlet-name> 
+  </filter-mapping> -->
+  
+  <!-- 
+  	URL Pattern 처리하기
+  		1. /시작하고, /*끝나는 매핑  -> 모든 Servlet
+  		2. *.로 시작하는 확장자 매핑
+  		3. 사용예
+  		  1)*.jsp
+  		  2)/*
+  		  3)/membership/*
+  		  4)<servlet-name>특정Servlet</servlet-name>
+  		  5)<url-pattern>/sub/*</url-pattern>
+  		      <servlet-name>특정Servlet</servlet-name>
+   -->
+  
+  <!-- <servlet>
   	<servlet-name>Hello</servlet-name>
   	<servlet-class>com.example.HelloServlet</servlet-class>
   </servlet>
-  
   <servlet-mapping>
   	<servlet-name>Hello</servlet-name>
   	<url-pattern>/servlets/servlet/Hello</url-pattern>
-  </servlet-mapping>
-  
-  <filter>
-  	<filter-name>MyFilter</filter-name>
-  	<filter-class>com.example.filter.MyFilter</filter-class>
-  </filter>
-  <filter-mapping>
-  	<filter-name>MyFilter</filter-name>
-  	<!-- <url-pattern>*.jsp</url-pattern>    jsp page filter할 때-->
-  	<servlet-name>Hello</servlet-name>   <!-- 특정 Servlet에 접근할 때 -->
-  </filter-mapping>
-  
+  </servlet-mapping> -->
 </web-app>
